@@ -299,123 +299,151 @@ public class Main {
 	}
 
 	private static void atualizarAnimal() throws SQLException {
-        // Solicitar o ID do animal a ser atualizado
-        int idAtualizar = Integer.parseInt(JOptionPane.showInputDialog("ID do Animal a ser atualizado:"));
-		Optional <Animal> animalParaAtualizar = animalService.buscarAnimalPorId(idAtualizar);
+		// Solicitar o ID do animal a ser atualizado
+		String input = JOptionPane.showInputDialog("ID do Animal a ser atualizado:");
 
-        if (animalParaAtualizar.isPresent()) {
-			Animal animal = animalParaAtualizar.get();
-            // Criação do painel principal
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(5, 2, 10, 10));
+		// Verificar se o input é nulo (cancelado) ou vazio
+		if (input == null || input.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			return; // Sai do método
+		}
 
-            // Campos de entrada com os dados atuais do animal
-            JLabel nomeLabel = new JLabel("Nome:");
-            JTextField nomeField = new JTextField(animal.getNome());
+		try {
+			int idAtualizar = Integer.parseInt(input);
+			Optional<Animal> animalParaAtualizar = animalService.buscarAnimalPorId(idAtualizar);
 
-            JLabel especieLabel = new JLabel("Espécie:");
-            JTextField especieField = new JTextField(animal.getEspecie());
+			if (animalParaAtualizar.isPresent()) {
+				Animal animal = animalParaAtualizar.get();
+				// Criação do painel principal
+				JPanel panel = new JPanel();
+				panel.setLayout(new GridLayout(5, 2, 10, 10));
 
-            JLabel racaLabel = new JLabel("Raça:");
-            JTextField racaField = new JTextField(animal.getRaca());
+				// Campos de entrada com os dados atuais do animal
+				JLabel nomeLabel = new JLabel("Nome:");
+				JTextField nomeField = new JTextField(animal.getNome());
 
-            JLabel idadeLabel = new JLabel("Idade (em meses):");
-            JTextField idadeField = new JTextField(String.valueOf(animal.getIdade()));
+				JLabel especieLabel = new JLabel("Espécie:");
+				JTextField especieField = new JTextField(animal.getEspecie());
 
-            JLabel castradoLabel = new JLabel("Animal é castrado?");
-            JCheckBox castradoCheckBox = new JCheckBox();
-            castradoCheckBox.setSelected(animal.isCastrado());
+				JLabel racaLabel = new JLabel("Raça:");
+				JTextField racaField = new JTextField(animal.getRaca());
 
-            // Adicionando componentes ao painel
-            panel.add(nomeLabel);
-            panel.add(nomeField);
-            panel.add(especieLabel);
-            panel.add(especieField);
-            panel.add(racaLabel);
-            panel.add(racaField);
-            panel.add(idadeLabel);
-            panel.add(idadeField);
-            panel.add(castradoLabel);
-            panel.add(castradoCheckBox);
+				JLabel idadeLabel = new JLabel("Idade (em meses):");
+				JTextField idadeField = new JTextField(String.valueOf(animal.getIdade()));
 
-            // Exibir o painel em um JOptionPane
-            int result = JOptionPane.showConfirmDialog(null, panel, "Atualizar Animal", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				JLabel castradoLabel = new JLabel("Animal é castrado?");
+				JCheckBox castradoCheckBox = new JCheckBox();
+				castradoCheckBox.setSelected(animal.isCastrado());
 
-            if (result == JOptionPane.OK_OPTION) {
-                try {
-                    // Atualizar os valores do animal com os novos dados inseridos
-                    animal.setNome(nomeField.getText());
-                    animal.setEspecie(especieField.getText());
-                    animal.setRaca(racaField.getText());
-                    animal.setIdade(Integer.parseInt(idadeField.getText()));
-                    animal.setCastrado(castradoCheckBox.isSelected());
-					animalService.atualizarAnimal(animal);
+				// Adicionando componentes ao painel
+				panel.add(nomeLabel);
+				panel.add(nomeField);
+				panel.add(especieLabel);
+				panel.add(especieField);
+				panel.add(racaLabel);
+				panel.add(racaField);
+				panel.add(idadeLabel);
+				panel.add(idadeField);
+				panel.add(castradoLabel);
+				panel.add(castradoCheckBox);
 
-                    // Confirmar a atualização
-                    JOptionPane.showMessageDialog(null, "Animal atualizado com sucesso.");
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida em meses.");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Animal não encontrado.");
-        }
-    }
-	
+				// Exibir o painel em um JOptionPane
+				int result = JOptionPane.showConfirmDialog(null, panel, "Atualizar Animal", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result == JOptionPane.OK_OPTION) {
+					try {
+						// Atualizar os valores do animal com os novos dados inseridos
+						animal.setNome(nomeField.getText());
+						animal.setEspecie(especieField.getText());
+						animal.setRaca(racaField.getText());
+						animal.setIdade(Integer.parseInt(idadeField.getText()));
+						animal.setCastrado(castradoCheckBox.isSelected());
+						animalService.atualizarAnimal(animal);
+
+						// Confirmar a atualização
+						JOptionPane.showMessageDialog(null, "Animal atualizado com sucesso.");
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida em meses.");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Operação cancelada.");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Animal não encontrado.");
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "ID inválido. Por favor, insira um número válido.");
+		}
+	}
+
+
 	private static void deletarAnimal() throws SQLException {
-        // Solicitar o ID do animal a ser removido
-        int idRemover = Integer.parseInt(JOptionPane.showInputDialog("ID do Animal a ser removido:"));
-        Optional <Animal> animalParaRemover = animalService.buscarAnimalPorId(idRemover);
+		// Solicitar o ID do animal a ser removido
+		String input = JOptionPane.showInputDialog("ID do Animal a ser removido:");
 
-        if (animalParaRemover.isPresent()) {
-			Animal animal = animalParaRemover.get();
-            // Criação do painel principal
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(5, 2, 10, 10));
-            panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
+		// Verificar se o input é nulo (cancelado) ou vazio
+		if (input == null || input.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			return; // Sai do método
+		}
 
-            // Exibição dos dados do animal
-            JLabel nomeLabel = new JLabel("Nome:");
-            JLabel nomeValue = new JLabel(animal.getNome());
+		try {
+			int idRemover = Integer.parseInt(input);
+			Optional<Animal> animalParaRemover = animalService.buscarAnimalPorId(idRemover);
 
-            JLabel especieLabel = new JLabel("Espécie:");
-            JLabel especieValue = new JLabel(animal.getEspecie());
+			if (animalParaRemover.isPresent()) {
+				Animal animal = animalParaRemover.get();
+				// Criação do painel principal
+				JPanel panel = new JPanel();
+				panel.setLayout(new GridLayout(5, 2, 10, 10));
+				panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
 
-            JLabel racaLabel = new JLabel("Raça:");
-            JLabel racaValue = new JLabel(animal.getRaca());
+				// Exibição dos dados do animal
+				JLabel nomeLabel = new JLabel("Nome:");
+				JLabel nomeValue = new JLabel(animal.getNome());
 
-            JLabel idadeLabel = new JLabel("Idade (em meses):");
-            JLabel idadeValue = new JLabel(String.valueOf(animal.getIdade()));
+				JLabel especieLabel = new JLabel("Espécie:");
+				JLabel especieValue = new JLabel(animal.getEspecie());
 
-            JLabel castradoLabel = new JLabel("Animal é castrado?");
-            JLabel castradoValue = new JLabel(animal.isCastrado() ? "Sim" : "Não");
+				JLabel racaLabel = new JLabel("Raça:");
+				JLabel racaValue = new JLabel(animal.getRaca());
 
-            // Adicionando componentes ao painel
-            panel.add(nomeLabel);
-            panel.add(nomeValue);
-            panel.add(especieLabel);
-            panel.add(especieValue);
-            panel.add(racaLabel);
-            panel.add(racaValue);
-            panel.add(idadeLabel);
-            panel.add(idadeValue);
-            panel.add(castradoLabel);
-            panel.add(castradoValue);
+				JLabel idadeLabel = new JLabel("Idade (em meses):");
+				JLabel idadeValue = new JLabel(String.valueOf(animal.getIdade()));
 
-            // Exibir o painel em um JOptionPane para confirmar exclusão
-            int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Animal", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				JLabel castradoLabel = new JLabel("Animal é castrado?");
+				JLabel castradoValue = new JLabel(animal.isCastrado() ? "Sim" : "Não");
 
-            if (result == JOptionPane.OK_OPTION) {
-                // Confirmar a exclusão
-                animalService.removerAnimal(idRemover);
-                JOptionPane.showMessageDialog(null, "Animal removido com sucesso.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Ação de exclusão cancelada.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Animal não encontrado.");
-        }
-    }
+				// Adicionando componentes ao painel
+				panel.add(nomeLabel);
+				panel.add(nomeValue);
+				panel.add(especieLabel);
+				panel.add(especieValue);
+				panel.add(racaLabel);
+				panel.add(racaValue);
+				panel.add(idadeLabel);
+				panel.add(idadeValue);
+				panel.add(castradoLabel);
+				panel.add(castradoValue);
+
+				// Exibir o painel em um JOptionPane para confirmar exclusão
+				int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Animal", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result == JOptionPane.OK_OPTION) {
+					// Confirmar a exclusão
+					animalService.removerAnimal(idRemover);
+					JOptionPane.showMessageDialog(null, "Animal removido com sucesso.");
+				} else {
+					JOptionPane.showMessageDialog(null, "Ação de exclusão cancelada.");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Animal não encontrado.");
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "ID inválido. Por favor, insira um número válido.");
+		}
+	}
+
 
 	public static void gerenciarAdotantes() throws SQLException {
 		String[] options = { "Criar Adotante", "Listar Adotantes", "Atualizar Adotante", "Deletar Adotante", "Voltar" };
@@ -621,7 +649,7 @@ public class Main {
 	private static void criarFuncionario() {
 		// Criação do painel principal
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 2, 10, 10));
+		panel.setLayout(new GridLayout(5, 2, 10, 10)); // Alterado para 5 linhas para acomodar todos os campos
 
 		// Campos de entrada
 		JLabel nomeLabel = new JLabel("Nome do Funcionário:");
@@ -639,7 +667,7 @@ public class Main {
 		JLabel telefoneLabel = new JLabel("Telefone:");
 		JTextField telefoneField = new JTextField();
 
-		// Adicionando componentes ao painel
+		// Adicionando componentes ao painel em ordem
 		panel.add(nomeLabel);
 		panel.add(nomeField);
 		panel.add(idadeLabel);
@@ -656,22 +684,25 @@ public class Main {
 
 		if (result == JOptionPane.OK_OPTION) {
 			try {
+				// Capturando os dados dos campos
 				String nome = nomeField.getText();
 				int idade = Integer.parseInt(idadeField.getText());
 				String cpf = cpfField.getText();
 				String endereco = enderecoField.getText();
 				String telefone = telefoneField.getText();
 
+				// Criando e salvando o objeto Funcionario
 				Funcionario funcionario = new Funcionario(nome, idade, endereco, cpf, telefone);
 				funcionarioService.adicionarFuncionario(funcionario);
 				JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso.");
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.");
 			} catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
+				throw new RuntimeException(e);
+			}
+		}
 	}
+
 
 	public static void exibirFuncionariosPanel() throws SQLException {
 		// Obter a lista de funcionários do serviço
@@ -682,7 +713,7 @@ public class Main {
 		panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
 
 		// Configuração da tabela
-		String[] colunas = {"Id","Nome", "Idade", "CPF", "Endereço"};
+		String[] colunas = {"Id","Nome", "Idade", "CPF", "Endereço", "Telefone"};
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable tabela = new JTable(modeloTabela);
 
@@ -693,7 +724,8 @@ public class Main {
 					funcionario.getNome(),
 					funcionario.getIdade(),
 					funcionario.getCpf(),
-					funcionario.getEndereco()
+					funcionario.getEndereco(),
+					funcionario.getTelefone(),
 			});
 		}
 
@@ -710,79 +742,126 @@ public class Main {
 
 
 	private static void atualizarFuncionario() throws SQLException {
-		int idAtualizar = Integer.parseInt(JOptionPane.showInputDialog("ID do Funcionário a ser atualizado:"));
-		Optional<Funcionario> funcionarioParaAtualizar = funcionarioService.buscarFuncionarioPorId(idAtualizar);
-		if (funcionarioParaAtualizar.isPresent()) {
-			Funcionario funcionario = funcionarioParaAtualizar.get();
-			String novoNome = JOptionPane.showInputDialog("Novo Nome:", funcionario.getNome());
-			int novaIdade = Integer
-					.parseInt(JOptionPane.showInputDialog("Nova Idade:", funcionario.getIdade()));
-			String novoEndereco = JOptionPane.showInputDialog("Novo Endereço:", funcionario.getEndereco());
+		try {
+			// Solicita o ID do funcionário a ser atualizado
+			String idString = JOptionPane.showInputDialog("ID do Funcionário a ser atualizado:");
+			if (idString == null) {
+				JOptionPane.showMessageDialog(null, "Operação cancelada.");
+				return;
+			}
+			int idAtualizar = Integer.parseInt(idString);
 
-			funcionario.setNome(novoNome);
-			funcionario.setIdade(novaIdade);
-			funcionario.setEndereco(novoEndereco);
-			funcionarioService.atualizarFuncionario(funcionario);
+			// Busca o funcionário com o ID fornecido
+			Optional<Funcionario> funcionarioParaAtualizar = funcionarioService.buscarFuncionarioPorId(idAtualizar);
+			if (funcionarioParaAtualizar.isPresent()) {
+				Funcionario funcionario = funcionarioParaAtualizar.get();
 
-			JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso.");
-		} else {
-			JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
+				// Solicita as novas informações do funcionário
+				String novoNome = JOptionPane.showInputDialog("Novo Nome:", funcionario.getNome());
+				if (novoNome == null) {
+					JOptionPane.showMessageDialog(null, "Operação cancelada.");
+					return;
+				}
+
+				String novaIdadeString = JOptionPane.showInputDialog("Nova Idade:", funcionario.getIdade());
+				if (novaIdadeString == null) {
+					JOptionPane.showMessageDialog(null, "Operação cancelada.");
+					return;
+				}
+				int novaIdade = Integer.parseInt(novaIdadeString);
+
+				String novoEndereco = JOptionPane.showInputDialog("Novo Endereço:", funcionario.getEndereco());
+				if (novoEndereco == null) {
+					JOptionPane.showMessageDialog(null, "Operação cancelada.");
+					return;
+				}
+
+				String novoTelefone = JOptionPane.showInputDialog("Novo Telefone:", funcionario.getTelefone());
+				if (novoTelefone == null) {
+					JOptionPane.showMessageDialog(null, "Operação cancelada.");
+					return;
+				}
+
+				// Atualiza o funcionário com os novos dados
+				funcionario.setNome(novoNome);
+				funcionario.setIdade(novaIdade);
+				funcionario.setEndereco(novoEndereco);
+				funcionario.setTelefone(novoTelefone);
+				funcionarioService.atualizarFuncionario(funcionario);
+
+				JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Entrada inválida. Operação cancelada.");
 		}
 	}
 
 	private static void deletarFuncionario() throws SQLException {
 		// Solicitar o ID do funcionário a ser removido
-		int idRemover = Integer.parseInt(JOptionPane.showInputDialog("ID do Funcionário a ser removido:"));
-		Optional<Funcionario> funcionarioParaRemover = funcionarioService.buscarFuncionarioPorId(idRemover);
+		String input = JOptionPane.showInputDialog("ID do Funcionário a ser removido:");
 
-		if (funcionarioParaRemover.isPresent()) {
-			Funcionario funcionario = funcionarioParaRemover.get();
+		// Verificar se o input é nulo (cancelado) ou vazio
+		if (input == null || input.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			return; // Sai do método
+		}
 
-			// Criação do painel principal
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(5, 2, 10, 10));
-			panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
+		try {
+			int idRemover = Integer.parseInt(input);
+			Optional<Funcionario> funcionarioParaRemover = funcionarioService.buscarFuncionarioPorId(idRemover);
 
-			// Exibição dos dados do funcionário
+			if (funcionarioParaRemover.isPresent()) {
+				Funcionario funcionario = funcionarioParaRemover.get();
 
-			JLabel idLabel = new JLabel("ID:");
-			JLabel idValue = new JLabel(String.valueOf(funcionario.getId()));
+				// Criação do painel principal
+				JPanel panel = new JPanel();
+				panel.setLayout(new GridLayout(5, 2, 10, 10));
+				panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
 
-			JLabel nomeLabel = new JLabel("Nome:");
-			JLabel nomeValue = new JLabel(funcionario.getNome());
+				// Exibição dos dados do funcionário
+				JLabel idLabel = new JLabel("ID:");
+				JLabel idValue = new JLabel(String.valueOf(funcionario.getId()));
 
+				JLabel nomeLabel = new JLabel("Nome:");
+				JLabel nomeValue = new JLabel(funcionario.getNome());
 
-			JLabel cpfLabel = new JLabel("Cpf:");
-			JLabel cpfValue = new JLabel(funcionario.getCpf());
+				JLabel cpfLabel = new JLabel("Cpf:");
+				JLabel cpfValue = new JLabel(funcionario.getCpf());
 
+				JLabel enderecoLabel = new JLabel("Endereço:");
+				JLabel enderecoValue = new JLabel(funcionario.getEndereco());
 
-			JLabel enderecoLabel = new JLabel("Endereço:");
-			JLabel enderecoValue = new JLabel(funcionario.getEndereco());
+				// Adicionando componentes ao painel
+				panel.add(nomeLabel);
+				panel.add(nomeValue);
+				panel.add(idLabel);
+				panel.add(idValue);
+				panel.add(cpfLabel);
+				panel.add(cpfValue);
+				panel.add(enderecoLabel);
+				panel.add(enderecoValue);
 
-			// Adicionando componentes ao painel
-			panel.add(nomeLabel);
-			panel.add(nomeValue);
-			panel.add(idLabel);
-			panel.add(idValue);
-			panel.add(cpfLabel);
-			panel.add(cpfValue);
-			panel.add(enderecoLabel);
-			panel.add(enderecoValue);
+				// Exibir o painel em um JOptionPane para confirmar exclusão
+				int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-			// Exibir o painel em um JOptionPane para confirmar exclusão
-			int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-			if (result == JOptionPane.OK_OPTION) {
-				// Confirmar a exclusão
-				funcionarioService.removerFuncionario(idRemover);
-				JOptionPane.showMessageDialog(null, "Funcionário removido com sucesso.");
+				if (result == JOptionPane.OK_OPTION) {
+					// Confirmar a exclusão
+					funcionarioService.removerFuncionario(idRemover);
+					JOptionPane.showMessageDialog(null, "Funcionário removido com sucesso.");
+				} else if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
+					JOptionPane.showMessageDialog(null, "Ação de exclusão cancelada.");
+				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Ação de exclusão cancelada.");
+				JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "ID inválido. Por favor, insira um número válido.");
 		}
 	}
+
+
 
 
 	// Gerenciamento de Adoções
