@@ -1,7 +1,7 @@
-package org.example.adocao;
-import org.example.adotante.Adotante;
-import org.example.animal.Animal;
-import org.example.funcionario.Funcionario;
+package com.projeto.programacao.adocao;
+import com.projeto.programacao.adotante.Adotante;
+import com.projeto.programacao.animal.Animal;
+import com.projeto.programacao.funcionario.Funcionario;
 import java.sql.SQLException;
 import java.util.List;
 

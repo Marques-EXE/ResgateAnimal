@@ -1,4 +1,4 @@
-package org.example.funcionario;
+package com.projeto.programacao.funcionario;
 
 public class Funcionario {
     private int id;

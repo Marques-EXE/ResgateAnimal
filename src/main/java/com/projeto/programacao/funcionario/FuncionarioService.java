@@ -1,5 +1,4 @@
-package org.example.funcionario;
-import org.example.animal.Animal;
+package com.projeto.programacao.funcionario;
 
 import java.sql.SQLException;
 import java.util.List;

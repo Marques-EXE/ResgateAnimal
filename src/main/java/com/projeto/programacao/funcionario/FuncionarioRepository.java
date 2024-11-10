@@ -1,4 +1,4 @@
-package org.example.funcionario;
+package com.projeto.programacao.funcionario;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

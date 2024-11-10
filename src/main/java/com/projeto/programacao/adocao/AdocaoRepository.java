@@ -1,8 +1,8 @@
-package org.example.adocao;
+package com.projeto.programacao.adocao;
 
-import org.example.adotante.Adotante;
-import org.example.animal.Animal;
-import org.example.funcionario.Funcionario;
+import com.projeto.programacao.adotante.Adotante;
+import com.projeto.programacao.animal.Animal;
+import com.projeto.programacao.funcionario.Funcionario;
 
 import java.sql.*;
 import java.time.LocalDateTime;

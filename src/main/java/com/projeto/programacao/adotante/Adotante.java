@@ -1,4 +1,4 @@
-package org.example.adotante;
+package com.projeto.programacao.adotante;
 
 public class Adotante {
     private int id;

@@ -1,4 +1,4 @@
-package org.example.animal;
+package com.projeto.programacao.animal;
 
 import java.sql.SQLException;
 import java.util.List;

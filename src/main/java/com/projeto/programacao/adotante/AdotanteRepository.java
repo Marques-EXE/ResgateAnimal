@@ -1,6 +1,4 @@
-package org.example.adotante;
-
-import org.example.funcionario.Funcionario;
+package com.projeto.programacao.adotante;
 
 import java.sql.*;
 import java.util.ArrayList;

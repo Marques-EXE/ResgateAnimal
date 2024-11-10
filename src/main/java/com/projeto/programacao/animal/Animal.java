@@ -1,4 +1,4 @@
-package org.example.animal;
+package com.projeto.programacao.animal;
 
 public class Animal {
     private int id;
