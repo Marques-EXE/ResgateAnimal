@@ -305,7 +305,7 @@ public class Main {
 		// Verificar se o input é nulo (cancelado) ou vazio
 		if (input == null || input.trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Operação cancelada.");
-			return; // Sai do método
+			return; // Sai do metodo
 		}
 
 		try {
@@ -384,7 +384,7 @@ public class Main {
 		// Verificar se o input é nulo (cancelado) ou vazio
 		if (input == null || input.trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Operação cancelada.");
-			return; // Sai do método
+			return; // Sai do metodo
 		}
 
 		try {
@@ -471,7 +471,7 @@ public class Main {
 	private static void criarAdotante() {
 		// Criação do painel principal
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 2, 10, 10));
+		panel.setLayout(new GridLayout(5, 2, 10, 10)); // Ajustado para incluir todos os campos
 
 		// Campos de entrada
 		JLabel nomeLabel = new JLabel("Nome:");
@@ -500,27 +500,42 @@ public class Main {
 		panel.add(enderecoField);
 		panel.add(telefoneLabel);
 		panel.add(telefoneField);
-		// Botão para salvar o adotante
+
+		// Exibir o painel em um JOptionPane
 		int result = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Adotante", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		if (result == JOptionPane.OK_OPTION) {
 			try {
-				String nome = nomeField.getText();
-				int idade = Integer.parseInt(idadeField.getText());
-				String cpf = cpfField.getText();
-				String endereco = enderecoField.getText();
-				String telefone = telefoneField.getText();
+				// Capturar os valores dos campos de entrada
+				String nome = nomeField.getText().trim();
+				int idade = Integer.parseInt(idadeField.getText().trim());
+				String cpf = cpfField.getText().trim();
+				String endereco = enderecoField.getText().trim();
+				String telefone = telefoneField.getText().trim();
 
+				// Verificar se algum campo obrigatório está vazio
+				if (nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.", "Erro", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				// Criar o objeto Adotante e salvar
 				Adotante adotante = new Adotante(nome, idade, cpf, endereco, telefone);
 				adotanteService.adicionarAdotante(adotante);
-				JOptionPane.showMessageDialog(null, "Adotante cadastrado com sucesso.");
+
+				// Mensagem de sucesso
+				JOptionPane.showMessageDialog(null, "Adotante cadastrado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
 			} catch (NumberFormatException e) {
-				JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.");
-			} catch (SQLException e){
-				JOptionPane.showMessageDialog(null, "Erro ao fazer a consulta no banco de dados.");
+				JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro ao fazer a consulta no banco de dados. Tente novamente mais tarde.", "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
 			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Cadastro cancelado.", "Operação Cancelada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
 
 	public static void exibirAdotantesPanel() throws SQLException {
 		// Obter a lista de adotantes do serviço
@@ -531,7 +546,7 @@ public class Main {
 		panel.setBackground(new Color(226, 216, 194)); // Definindo a cor de fundo
 
 		// Configuração da tabela
-		String[] colunas = {"Id","Nome", "Idade", "CPF", "Endereço"};
+		String[] colunas = {"Id","Nome", "Idade", "CPF", "Endereço", "Telefone"};
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable tabela = new JTable(modeloTabela);
 
@@ -542,7 +557,8 @@ public class Main {
 					adotante.getNome(),
 					adotante.getIdade(),
 					adotante.getCpf(),
-					adotante.getEndereco()
+					adotante.getEndereco(),
+					adotante.getTelefone(),
 			};
 			modeloTabela.addRow(linha);
 		}
@@ -566,6 +582,7 @@ public class Main {
 			Adotante adotante = adotanteParaAtualizar.get();
 			adotante.setNome(JOptionPane.showInputDialog("Novo Nome:", adotante.getNome()));
 			adotante.setEndereco(JOptionPane.showInputDialog("Novo Endereço:", adotante.getEndereco()));
+			adotante.setTelefone(JOptionPane.showInputDialog("Novo telefone:",adotante.getTelefone()));
 			adotanteService.atualizarAdotante(adotante);
 			JOptionPane.showMessageDialog(null, "Adotante atualizado com sucesso.");
 		} else {
@@ -805,7 +822,7 @@ public class Main {
 		// Verificar se o input é nulo (cancelado) ou vazio
 		if (input == null || input.trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Operação cancelada.");
-			return; // Sai do método
+			return; // Sai do metodo
 		}
 
 		try {
