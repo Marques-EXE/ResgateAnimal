@@ -32,7 +32,7 @@ public class AdocaoRepository {
         List<Adocao> adocoes = new ArrayList<>();
         String sql = "select \n" +
                 "\tf.nome nome_funcionario, f.idade idade_funcionario, f.endereco endereco_funcionario, f.cpf cpf_funcionario,f.telefone telefone_funcionario, f.id id_funcionario,\n" +
-                "\ta.id id_adotante, a.nome nome_adotante, a.idade idade_adotante, a.endereco endereco_adotante, a.cpf cpf_adotante, a.telefone telefone_adotante\n" +
+                "\ta.id id_adotante, a.nome nome_adotante, a.idade idade_adotante, a.endereco endereco_adotante, a.cpf cpf_adotante, a.telefone telefone_adotante,\n" +
                 "\tm.nome nome_animal, m.especie especie_animal, m.raca raca_animal, m.idade idade_animal, m.castrado castrado_animal, m.id id_animal,  x.data_adocao data_adocao\n" +
                 "from adocao x inner join funcionario f on x.funcionario_id = f.id\n" +
                 "inner join adotante a on x.adotante_id = a.id\n" +
