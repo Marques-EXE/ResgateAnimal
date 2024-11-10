@@ -6,19 +6,22 @@ public class Funcionario {
     private int idade;
     private String endereco;
     private String cpf;
+    private String telefone;
 
-    public Funcionario(String nome, int idade, String endereco, String cpf) {
+    public Funcionario(String nome, int idade, String endereco, String cpf, String telefone) {
         this.nome = nome;
         this.idade = idade;
         this.endereco = endereco;
         this.cpf = cpf;
+        this.telefone = telefone;
     }
-    public Funcionario(int id,String nome, int idade, String endereco, String cpf) {
+    public Funcionario(int id,String nome, int idade, String endereco, String cpf, String telefone) {
         this.id = id;
         this.nome = nome;
         this.idade = idade;
         this.endereco = endereco;
         this.cpf = cpf;
+        this.telefone = telefone;
     }
 
     public int getId() {
@@ -51,6 +54,14 @@ public class Funcionario {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     @Override

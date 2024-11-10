@@ -31,8 +31,8 @@ public class AdocaoRepository {
     public List<Adocao> findAll() throws SQLException {
         List<Adocao> adocoes = new ArrayList<>();
         String sql = "select \n" +
-                "\tf.nome nome_funcionario, f.idade idade_funcionario, f.endereco endereco_funcionario, f.cpf cpf_funcionario, f.id id_funcionario,\n" +
-                "\ta.id id_adotante, a.nome nome_adotante, a.idade idade_adotante, a.endereco endereco_adotante, a.cpf cpf_adotante,\n" +
+                "\tf.nome nome_funcionario, f.idade idade_funcionario, f.endereco endereco_funcionario, f.cpf cpf_funcionario,f.telefone telefone_funcionario, f.id id_funcionario,\n" +
+                "\ta.id id_adotante, a.nome nome_adotante, a.idade idade_adotante, a.endereco endereco_adotante, a.cpf cpf_adotante, a.telefone telefone_adotante\n" +
                 "\tm.nome nome_animal, m.especie especie_animal, m.raca raca_animal, m.idade idade_animal, m.castrado castrado_animal, m.id id_animal,  x.data_adocao data_adocao\n" +
                 "from adocao x inner join funcionario f on x.funcionario_id = f.id\n" +
                 "inner join adotante a on x.adotante_id = a.id\n" +
@@ -44,24 +44,26 @@ public class AdocaoRepository {
             int idadeFuncionaro = resultSet.getInt(2);
             String enderecoFuncionario = resultSet.getString(3);
             String cpfFuncionario = resultSet.getString(4);
-            int idFuncionario = resultSet.getInt(5);
-            Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, idadeFuncionaro, enderecoFuncionario, cpfFuncionario);
+            String telefoneFuncionario = resultSet.getString(5);
+            int idFuncionario = resultSet.getInt(6);
+            Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, idadeFuncionaro, enderecoFuncionario, cpfFuncionario, telefoneFuncionario);
 
-            int idAdotante = resultSet.getInt(6);
-            String nomeAdotante = resultSet.getString(7);
-            int idadeAdotante = resultSet.getInt(8);
-            String enderecoAdotante = resultSet.getString(9);
-            String cpfAdotante = resultSet.getString(10);
-            Adotante adotante = new Adotante(idAdotante, nomeAdotante, idadeAdotante, cpfAdotante, enderecoAdotante);
+            int idAdotante = resultSet.getInt(7);
+            String nomeAdotante = resultSet.getString(8);
+            int idadeAdotante = resultSet.getInt(9);
+            String enderecoAdotante = resultSet.getString(10);
+            String cpfAdotante = resultSet.getString(11);
+            String telefoneAdotante = resultSet.getString(12);
+            Adotante adotante = new Adotante(idAdotante, nomeAdotante, idadeAdotante, cpfAdotante, enderecoAdotante, telefoneAdotante);
 
-            String nomeAnimal = resultSet.getString(11);
-            String especieAnimal = resultSet.getString(12);
-            String racaAnimal = resultSet.getString(13);
-            int idadeAnimal = resultSet.getInt(14);
-            boolean castradoAnimal = resultSet.getBoolean(15);
-            int idAnimal = resultSet.getInt(16);
+            String nomeAnimal = resultSet.getString(13);
+            String especieAnimal = resultSet.getString(14);
+            String racaAnimal = resultSet.getString(15);
+            int idadeAnimal = resultSet.getInt(16);
+            boolean castradoAnimal = resultSet.getBoolean(17);
+            int idAnimal = resultSet.getInt(18);
             Animal animal = new Animal(idAnimal, nomeAnimal, especieAnimal, racaAnimal, idadeAnimal, castradoAnimal);
-            LocalDateTime dataAdocao = resultSet.getTimestamp(17).toLocalDateTime();
+            LocalDateTime dataAdocao = resultSet.getTimestamp(19).toLocalDateTime();
             Adocao adocao = new Adocao(animal, adotante, funcionario, dataAdocao);
             adocoes.add(adocao);
         }

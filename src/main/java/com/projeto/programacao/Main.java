@@ -458,6 +458,9 @@ public class Main {
 		JLabel enderecoLabel = new JLabel("Endereço:");
 		JTextField enderecoField = new JTextField();
 
+		JLabel telefoneLabel = new JLabel("Telefone:");
+		JTextField telefoneField = new JTextField();
+
 		// Adicionando componentes ao painel
 		panel.add(nomeLabel);
 		panel.add(nomeField);
@@ -467,7 +470,8 @@ public class Main {
 		panel.add(cpfField);
 		panel.add(enderecoLabel);
 		panel.add(enderecoField);
-
+		panel.add(telefoneLabel);
+		panel.add(telefoneField);
 		// Botão para salvar o adotante
 		int result = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Adotante", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
@@ -477,8 +481,9 @@ public class Main {
 				int idade = Integer.parseInt(idadeField.getText());
 				String cpf = cpfField.getText();
 				String endereco = enderecoField.getText();
+				String telefone = telefoneField.getText();
 
-				Adotante adotante = new Adotante(nome, idade, cpf, endereco);
+				Adotante adotante = new Adotante(nome, idade, cpf, endereco, telefone);
 				adotanteService.adicionarAdotante(adotante);
 				JOptionPane.showMessageDialog(null, "Adotante cadastrado com sucesso.");
 			} catch (NumberFormatException e) {
@@ -631,6 +636,9 @@ public class Main {
 		JLabel enderecoLabel = new JLabel("Endereço:");
 		JTextField enderecoField = new JTextField();
 
+		JLabel telefoneLabel = new JLabel("Telefone:");
+		JTextField telefoneField = new JTextField();
+
 		// Adicionando componentes ao painel
 		panel.add(nomeLabel);
 		panel.add(nomeField);
@@ -640,6 +648,8 @@ public class Main {
 		panel.add(cpfField);
 		panel.add(enderecoLabel);
 		panel.add(enderecoField);
+		panel.add(telefoneLabel);
+		panel.add(telefoneField);
 
 		// Botão para salvar o funcionário
 		int result = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -650,8 +660,9 @@ public class Main {
 				int idade = Integer.parseInt(idadeField.getText());
 				String cpf = cpfField.getText();
 				String endereco = enderecoField.getText();
+				String telefone = telefoneField.getText();
 
-				Funcionario funcionario = new Funcionario(nome, idade, endereco, cpf);
+				Funcionario funcionario = new Funcionario(nome, idade, endereco, cpf, telefone);
 				funcionarioService.adicionarFuncionario(funcionario);
 				JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso.");
 			} catch (NumberFormatException e) {

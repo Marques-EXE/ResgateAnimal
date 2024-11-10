@@ -6,8 +6,9 @@ public class Adotante {
     private int idade;
     private String cpf;
     private String endereco;
+    private String telefone;
 
-    public Adotante(String nome, int idade, String cpf, String endereco) {
+    public Adotante(String nome, int idade, String cpf, String endereco, String telefone) {
         if (idade < 18) {
             throw new IllegalArgumentException("Adotante deve ter no mínimo 18 anos.");
         }
@@ -15,9 +16,10 @@ public class Adotante {
         this.idade = idade;
         this.cpf = cpf;
         this.endereco = endereco;
+        this.telefone = telefone;
     }
-    public Adotante(int id, String nome, int idade, String cpf, String endereco) {
-        this(nome, idade, cpf, endereco);
+    public Adotante(int id, String nome, int idade, String cpf, String endereco, String telefone) {
+        this(nome, idade, cpf, endereco, telefone);
         this.id = id;
     }
     public int getId(){return id;}
@@ -50,6 +52,12 @@ public class Adotante {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getTelefone(){return telefone;}
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     @Override
