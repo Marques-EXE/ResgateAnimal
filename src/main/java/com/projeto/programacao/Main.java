@@ -508,14 +508,23 @@ public class Main {
 			try {
 				// Capturar os valores dos campos de entrada
 				String nome = nomeField.getText().trim();
-				int idade = Integer.parseInt(idadeField.getText().trim());
+				String idadeText = idadeField.getText().trim();
 				String cpf = cpfField.getText().trim();
 				String endereco = enderecoField.getText().trim();
 				String telefone = telefoneField.getText().trim();
 
 				// Verificar se algum campo obrigatório está vazio
-				if (nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+				if (nome.isEmpty() || idadeText.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.", "Erro", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				// Verificar se a idade é um número válido
+				int idade = Integer.parseInt(idadeText);
+
+				// Verificar se a idade é menor que 18 anos
+				if (idade < 18) {
+					JOptionPane.showMessageDialog(null, "Idade inválida. O adotante deve ter no mínimo 18 anos.", "Erro de Idade", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 
@@ -535,6 +544,8 @@ public class Main {
 			JOptionPane.showMessageDialog(null, "Cadastro cancelado.", "Operação Cancelada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
+
 
 
 	public static void exibirAdotantesPanel() throws SQLException {
@@ -702,11 +713,20 @@ public class Main {
 		if (result == JOptionPane.OK_OPTION) {
 			try {
 				// Capturando os dados dos campos
-				String nome = nomeField.getText();
-				int idade = Integer.parseInt(idadeField.getText());
-				String cpf = cpfField.getText();
-				String endereco = enderecoField.getText();
-				String telefone = telefoneField.getText();
+				String nome = nomeField.getText().trim();
+				String idadeText = idadeField.getText().trim();
+				String cpf = cpfField.getText().trim();
+				String endereco = enderecoField.getText().trim();
+				String telefone = telefoneField.getText().trim();
+
+				// Verificando se todos os campos foram preenchidos
+				if (nome.isEmpty() || idadeText.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.", "Erro", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				// Convertendo idade para um número inteiro
+				int idade = Integer.parseInt(idadeText);
 
 				// Criando e salvando o objeto Funcionario
 				Funcionario funcionario = new Funcionario(nome, idade, endereco, cpf, telefone);
@@ -715,10 +735,11 @@ public class Main {
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.");
 			} catch (SQLException e) {
-				throw new RuntimeException(e);
+				JOptionPane.showMessageDialog(null, "Erro ao salvar no banco de dados. Tente novamente.", "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
+
 
 
 	public static void exibirFuncionariosPanel() throws SQLException {
