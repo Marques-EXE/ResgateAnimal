@@ -587,19 +587,74 @@ public class Main {
 
 
 	private static void atualizarAdotante() throws SQLException {
+		// Solicitar o CPF do adotante a ser atualizado
 		String cpf = JOptionPane.showInputDialog("CPF do Adotante a ser atualizado:");
+
+		// Verificar se o input é nulo (cancelado) ou vazio
+		if (cpf == null || cpf.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			return; // Sai do metodo
+		}
+
 		Optional<Adotante> adotanteParaAtualizar = adotanteService.buscarAdotantePorCpf(cpf);
+
 		if (adotanteParaAtualizar.isPresent()) {
 			Adotante adotante = adotanteParaAtualizar.get();
-			adotante.setNome(JOptionPane.showInputDialog("Novo Nome:", adotante.getNome()));
-			adotante.setEndereco(JOptionPane.showInputDialog("Novo Endereço:", adotante.getEndereco()));
-			adotante.setTelefone(JOptionPane.showInputDialog("Novo telefone:",adotante.getTelefone()));
-			adotanteService.atualizarAdotante(adotante);
-			JOptionPane.showMessageDialog(null, "Adotante atualizado com sucesso.");
+
+			// Criação do painel principal
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(4, 2, 10, 10)); // Ajustado para 4 linhas para acomodar todos os campos
+
+			// Campos de entrada com os dados atuais do adotante
+			JLabel nomeLabel = new JLabel("Nome:");
+			JTextField nomeField = new JTextField(adotante.getNome());
+
+			JLabel enderecoLabel = new JLabel("Endereço:");
+			JTextField enderecoField = new JTextField(adotante.getEndereco());
+
+			JLabel telefoneLabel = new JLabel("Telefone:");
+			JTextField telefoneField = new JTextField(adotante.getTelefone());
+
+			JLabel idadeLabel = new JLabel("Idade:");
+			JTextField idadeField = new JTextField(String.valueOf(adotante.getIdade()));
+
+			// Adicionando componentes ao painel
+			panel.add(nomeLabel);
+			panel.add(nomeField);
+			panel.add(enderecoLabel);
+			panel.add(enderecoField);
+			panel.add(telefoneLabel);
+			panel.add(telefoneField);
+			panel.add(idadeLabel);
+			panel.add(idadeField);
+
+			// Exibir o painel em um JOptionPane
+			int result = JOptionPane.showConfirmDialog(null, panel, "Atualizar Adotante", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+			if (result == JOptionPane.OK_OPTION) {
+				try {
+					// Atualizar os valores do adotante com os novos dados inseridos
+					adotante.setNome(nomeField.getText().trim());
+					adotante.setEndereco(enderecoField.getText().trim());
+					adotante.setTelefone(telefoneField.getText().trim());
+					adotante.setIdade(Integer.parseInt(idadeField.getText().trim()));
+
+					// Atualizar adotante no serviço
+					adotanteService.atualizarAdotante(adotante);
+
+					// Confirmar a atualização
+					JOptionPane.showMessageDialog(null, "Adotante atualizado com sucesso.");
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Adotante não encontrado.");
 		}
 	}
+
 
 	private static void deletarAdotante() throws SQLException {
 		// Solicitar o CPF do adotante a ser removido
@@ -618,20 +673,31 @@ public class Main {
 			JLabel nomeLabel = new JLabel("Nome:");
 			JLabel nomeValue = new JLabel(adotante.getNome());
 
+			JLabel idadeLabel = new JLabel("Idade");
+			JLabel idadeValue = new JLabel(String.valueOf(adotante.getIdade()));
+
 			JLabel cpfLabel = new JLabel("CPF:");
 			JLabel cpfValue = new JLabel(adotante.getCpf());
 
 			JLabel enderecoLabel = new JLabel("Endereço:");
 			JLabel enderecoValue = new JLabel(adotante.getEndereco());
 
+			JLabel telefoneLabel = new JLabel("Telefone:");
+			JLabel telefoneValue = new JLabel(adotante.getTelefone());
+
+
 
 			// Adicionando componentes ao painel
 			panel.add(nomeLabel);
 			panel.add(nomeValue);
+			panel.add(idadeLabel);
+			panel.add(idadeValue);
 			panel.add(cpfLabel);
 			panel.add(cpfValue);
 			panel.add(enderecoLabel);
 			panel.add(enderecoValue);
+			panel.add(telefoneLabel);
+			panel.add(telefoneValue);
 
 			// Exibir o painel em um JOptionPane para confirmar exclusão
 			int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Adotante", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -780,61 +846,74 @@ public class Main {
 
 
 	private static void atualizarFuncionario() throws SQLException {
-		try {
-			// Solicita o ID do funcionário a ser atualizado
-			String idString = JOptionPane.showInputDialog("ID do Funcionário a ser atualizado:");
-			if (idString == null) {
-				JOptionPane.showMessageDialog(null, "Operação cancelada.");
-				return;
-			}
-			int idAtualizar = Integer.parseInt(idString);
+		String input = JOptionPane.showInputDialog("ID do Funcionário a ser atualizado:");
 
-			// Busca o funcionário com o ID fornecido
+		if (input == null || input.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Operação cancelada.");
+			return;
+		}
+
+		try {
+			int idAtualizar = Integer.parseInt(input);
 			Optional<Funcionario> funcionarioParaAtualizar = funcionarioService.buscarFuncionarioPorId(idAtualizar);
+
 			if (funcionarioParaAtualizar.isPresent()) {
 				Funcionario funcionario = funcionarioParaAtualizar.get();
 
-				// Solicita as novas informações do funcionário
-				String novoNome = JOptionPane.showInputDialog("Novo Nome:", funcionario.getNome());
-				if (novoNome == null) {
+				// Criação do painel principal
+				JPanel panel = new JPanel();
+				panel.setLayout(new GridLayout(4, 2, 10, 10));
+
+				// Campos de entrada com os dados atuais do funcionário
+				JLabel nomeLabel = new JLabel("Nome:");
+				JTextField nomeField = new JTextField(funcionario.getNome());
+
+				JLabel idadeLabel = new JLabel("Idade:");
+				JTextField idadeField = new JTextField(String.valueOf(funcionario.getIdade()));
+
+				JLabel enderecoLabel = new JLabel("Endereço:");
+				JTextField enderecoField = new JTextField(funcionario.getEndereco());
+
+				JLabel telefoneLabel = new JLabel("Telefone:");
+				JTextField telefoneField = new JTextField(funcionario.getTelefone());
+
+				// Adicionando componentes ao painel
+				panel.add(nomeLabel);
+				panel.add(nomeField);
+				panel.add(idadeLabel);
+				panel.add(idadeField);
+				panel.add(enderecoLabel);
+				panel.add(enderecoField);
+				panel.add(telefoneLabel);
+				panel.add(telefoneField);
+
+				// Exibir o painel em um JOptionPane
+				int result = JOptionPane.showConfirmDialog(null, panel, "Atualizar Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result == JOptionPane.OK_OPTION) {
+					try {
+						// Atualizar os valores do funcionário com os novos dados inseridos
+						funcionario.setNome(nomeField.getText());
+						funcionario.setIdade(Integer.parseInt(idadeField.getText()));
+						funcionario.setEndereco(enderecoField.getText());
+						funcionario.setTelefone(telefoneField.getText());
+						funcionarioService.atualizarFuncionario(funcionario);
+
+						JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso.");
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.");
+					}
+				} else {
 					JOptionPane.showMessageDialog(null, "Operação cancelada.");
-					return;
 				}
-
-				String novaIdadeString = JOptionPane.showInputDialog("Nova Idade:", funcionario.getIdade());
-				if (novaIdadeString == null) {
-					JOptionPane.showMessageDialog(null, "Operação cancelada.");
-					return;
-				}
-				int novaIdade = Integer.parseInt(novaIdadeString);
-
-				String novoEndereco = JOptionPane.showInputDialog("Novo Endereço:", funcionario.getEndereco());
-				if (novoEndereco == null) {
-					JOptionPane.showMessageDialog(null, "Operação cancelada.");
-					return;
-				}
-
-				String novoTelefone = JOptionPane.showInputDialog("Novo Telefone:", funcionario.getTelefone());
-				if (novoTelefone == null) {
-					JOptionPane.showMessageDialog(null, "Operação cancelada.");
-					return;
-				}
-
-				// Atualiza o funcionário com os novos dados
-				funcionario.setNome(novoNome);
-				funcionario.setIdade(novaIdade);
-				funcionario.setEndereco(novoEndereco);
-				funcionario.setTelefone(novoTelefone);
-				funcionarioService.atualizarFuncionario(funcionario);
-
-				JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso.");
 			} else {
 				JOptionPane.showMessageDialog(null, "Funcionário não encontrado.");
 			}
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Entrada inválida. Operação cancelada.");
+			JOptionPane.showMessageDialog(null, "ID inválido. Por favor, insira um número válido.");
 		}
 	}
+
 
 	private static void deletarFuncionario() throws SQLException {
 		// Solicitar o ID do funcionário a ser removido
@@ -871,15 +950,20 @@ public class Main {
 				JLabel enderecoLabel = new JLabel("Endereço:");
 				JLabel enderecoValue = new JLabel(funcionario.getEndereco());
 
+				JLabel telefoneLabel = new JLabel("Telefone");
+				JLabel telefoneValue = new JLabel(funcionario.getTelefone());
+
 				// Adicionando componentes ao painel
-				panel.add(nomeLabel);
-				panel.add(nomeValue);
 				panel.add(idLabel);
 				panel.add(idValue);
+				panel.add(nomeLabel);
+				panel.add(nomeValue);
 				panel.add(cpfLabel);
 				panel.add(cpfValue);
 				panel.add(enderecoLabel);
 				panel.add(enderecoValue);
+				panel.add(telefoneLabel);
+				panel.add(telefoneValue);
 
 				// Exibir o painel em um JOptionPane para confirmar exclusão
 				int result = JOptionPane.showConfirmDialog(null, panel, "Excluir Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
