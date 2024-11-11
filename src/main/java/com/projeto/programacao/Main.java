@@ -444,7 +444,6 @@ public class Main {
 		}
 	}
 
-
 	public static void gerenciarAdotantes() throws SQLException {
 		String[] options = { "Criar Adotante", "Listar Adotantes", "Atualizar Adotante", "Deletar Adotante", "Voltar" };
 		int choice = JOptionPane.showOptionDialog(null, "Escolha uma opção:", "Gerenciar Adotantes",
@@ -538,7 +537,7 @@ public class Main {
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Por favor, insira uma idade válida.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Erro ao fazer a consulta no banco de dados. Tente novamente mais tarde.", "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Cpf já cadastrado.", "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Cadastro cancelado.", "Operação Cancelada", JOptionPane.INFORMATION_MESSAGE);
