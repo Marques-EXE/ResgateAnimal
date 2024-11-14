@@ -15,7 +15,8 @@ public class Funcionario {
         this.cpf = cpf;
         this.telefone = telefone;
     }
-    public Funcionario(int id,String nome, int idade, String endereco, String cpf, String telefone) {
+
+    public Funcionario(int id, String nome, int idade, String endereco, String cpf, String telefone) {
         this.id = id;
         this.nome = nome;
         this.idade = idade;

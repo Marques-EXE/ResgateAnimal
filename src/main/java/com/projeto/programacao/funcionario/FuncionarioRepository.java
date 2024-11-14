@@ -1,4 +1,5 @@
 package com.projeto.programacao.funcionario;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +7,12 @@ import java.util.Optional;
 
 public class FuncionarioRepository {
     private Connection connection;
-    public FuncionarioRepository(String url, String username, String password)throws SQLException {
+
+    public FuncionarioRepository(String url, String username, String password) throws SQLException {
         this.connection = DriverManager.getConnection(url, username, password);
     }
-    public void insert(Funcionario funcionario)throws SQLException{
+
+    public void insert(Funcionario funcionario) throws SQLException {
         String sql = "insert into funcionario(nome, idade, endereco, cpf, telefone) value(?,?,?,?,?)";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         stmt.setString(1, funcionario.getNome());
@@ -20,12 +23,13 @@ public class FuncionarioRepository {
         stmt.executeUpdate();
         stmt.close();
     }
-    public List<Funcionario> findAll()throws SQLException{
+
+    public List<Funcionario> findAll() throws SQLException {
         List<Funcionario> funcionarios = new ArrayList<>();
         String sql = "select id, nome, idade, endereco, cpf, telefone from funcionario";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             int id = resultSet.getInt(1);
             String nome = resultSet.getString(2);
             int idade = resultSet.getInt(3);
@@ -38,6 +42,7 @@ public class FuncionarioRepository {
         resultSet.close();
         return funcionarios;
     }
+
     public void delete(int id) throws SQLException {
         String sql = "delete from funcionario where id = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -46,16 +51,17 @@ public class FuncionarioRepository {
         stmt.close();
 
     }
-    public Optional<Funcionario> findById(int id)throws SQLException{
+
+    public Optional<Funcionario> findById(int id) throws SQLException {
         Optional<Funcionario> funcionario = Optional.empty();
         String sql = "select nome, idade, endereco, cpf, telefone from funcionario where id = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
-        stmt.setInt(1,id);
+        stmt.setInt(1, id);
         ResultSet resultSet = stmt.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             String nome = resultSet.getString(1);
             int idade = resultSet.getInt(2);
-           String endereco = resultSet.getString(3);
+            String endereco = resultSet.getString(3);
             String cpf = resultSet.getString(4);
             String telefone = resultSet.getString(5);
             funcionario = Optional.of(new Funcionario(id, nome, idade, endereco, cpf, telefone));
@@ -63,6 +69,7 @@ public class FuncionarioRepository {
         resultSet.close();
         return funcionario;
     }
+
     public void update(Funcionario funcionario) throws SQLException {
         String sql = "update funcionario set nome = ?, idade = ?, endereco = ?, cpf = ?, telefone = ? where id = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);

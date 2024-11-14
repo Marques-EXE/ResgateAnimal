@@ -1,4 +1,5 @@
 package com.projeto.programacao.adocao;
+
 import com.projeto.programacao.adotante.Adotante;
 import com.projeto.programacao.animal.Animal;
 import com.projeto.programacao.funcionario.Funcionario;
@@ -16,6 +17,7 @@ public class Adocao {
         this.adotante = adotante;
         this.funcionario = funcionario;
     }
+
     public Adocao(Animal animal, Adotante adotante, Funcionario funcionario, LocalDateTime dataAdocao) {
         this(animal, adotante, funcionario);
         this.dataAdocao = dataAdocao;
@@ -33,7 +35,9 @@ public class Adocao {
         return funcionario;
     }
 
-    public LocalDateTime getDataAdocao(){return dataAdocao;}
+    public LocalDateTime getDataAdocao() {
+        return dataAdocao;
+    }
 
     @Override
     public String toString() {

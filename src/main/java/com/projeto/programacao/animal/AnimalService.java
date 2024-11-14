@@ -6,11 +6,12 @@ import java.util.Optional;
 
 public class AnimalService {
     private AnimalRepository jaula;
-    public AnimalService(AnimalRepository jaula)throws SQLException {
+
+    public AnimalService(AnimalRepository jaula) throws SQLException {
         this.jaula = jaula;
     }
 
-    public void adicionarAnimal(Animal animal)throws SQLException {
+    public void adicionarAnimal(Animal animal) throws SQLException {
         this.jaula.insert(animal);
     }
 
@@ -21,9 +22,11 @@ public class AnimalService {
     public List<Animal> listarAnimaisCastrados(boolean castrados) throws SQLException {
         return jaula.findAllCastrados();
     }
-    public List<Animal> listarAnimaisNaoCastrados(boolean castrados) throws SQLException{
+
+    public List<Animal> listarAnimaisNaoCastrados(boolean castrados) throws SQLException {
         return jaula.findAllNaoCastrados();
     }
+
     public Optional<Animal> buscarAnimalPorId(int id) throws SQLException {
         return jaula.findById(id);
     }
@@ -31,6 +34,7 @@ public class AnimalService {
     public void removerAnimal(int id) throws SQLException {
         jaula.delete(id);
     }
+
     public void atualizarAnimal(Animal animal) throws SQLException {
         jaula.update(animal);
     }

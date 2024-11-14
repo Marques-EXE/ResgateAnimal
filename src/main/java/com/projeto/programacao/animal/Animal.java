@@ -15,6 +15,7 @@ public class Animal {
         this.idade = idade;
         this.castrado = castrado;
     }
+
     public Animal(int id, String nome, String especie, String raca, int idade, boolean castrado) {
         this.id = id;
         this.nome = nome;
@@ -23,6 +24,7 @@ public class Animal {
         this.idade = idade;
         this.castrado = castrado;
     }
+
     public int getId() {
         return id;
     }
@@ -69,8 +71,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", Nome: " + nome + ", Espécie: " + especie + ", Raça: " + raca +
-                ", Idade: " + idade + " meses, Castrado: " + (castrado ? "Sim" : "Não");
+        return "ID: " + id + ", Nome: " + nome + ", Espécie: " + especie + ", Raça: " + raca + ", Idade: " + idade + " meses, Castrado: " + (castrado ? "Sim" : "Não");
     }
 
 }

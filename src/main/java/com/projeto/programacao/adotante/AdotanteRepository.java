@@ -7,10 +7,12 @@ import java.util.Optional;
 
 public class AdotanteRepository {
     private Connection connection;
-    public AdotanteRepository(String url, String username, String password)throws SQLException {
+
+    public AdotanteRepository(String url, String username, String password) throws SQLException {
         this.connection = DriverManager.getConnection(url, username, password);
     }
-    public void insert(Adotante adotante)throws SQLException{
+
+    public void insert(Adotante adotante) throws SQLException {
         String sql = "insert into adotante (nome, idade, endereco, cpf, telefone) value(?,?,?,?,?)";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         stmt.setString(1, adotante.getNome());
@@ -21,12 +23,13 @@ public class AdotanteRepository {
         stmt.executeUpdate();
         stmt.close();
     }
-    public List<Adotante> findAll()throws SQLException{
+
+    public List<Adotante> findAll() throws SQLException {
         List<Adotante> adotantes = new ArrayList<>();
         String sql = "select id, nome, idade, endereco, cpf, telefone from adotante";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             int id = resultSet.getInt(1);
             String nome = resultSet.getString(2);
             int idade = resultSet.getInt(3);
@@ -39,6 +42,7 @@ public class AdotanteRepository {
         resultSet.close();
         return adotantes;
     }
+
     public void delete(String cpf) throws SQLException {
         String sql = "delete from adotante where cpf = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -47,13 +51,14 @@ public class AdotanteRepository {
         stmt.close();
 
     }
-    public Optional<Adotante> findByCpf(String cpf)throws SQLException{
+
+    public Optional<Adotante> findByCpf(String cpf) throws SQLException {
         Optional<Adotante> adotante = Optional.empty();
         String sql = "select id, nome, idade, endereco, telefone from adotante where cpf = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
-        stmt.setString(1,cpf);
+        stmt.setString(1, cpf);
         ResultSet resultSet = stmt.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             int id = resultSet.getInt(1);
             String nome = resultSet.getString(2);
             int idade = resultSet.getInt(3);
@@ -64,6 +69,7 @@ public class AdotanteRepository {
         resultSet.close();
         return adotante;
     }
+
     public void update(Adotante adotante) throws SQLException {
         String sql = "update adotante set nome = ?, idade = ?, endereco = ?, cpf = ?, telefone = ? where id = ?";
         PreparedStatement stmt = this.connection.prepareStatement(sql);

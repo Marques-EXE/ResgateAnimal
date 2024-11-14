@@ -18,11 +18,16 @@ public class Adotante {
         this.endereco = endereco;
         this.telefone = telefone;
     }
+
     public Adotante(int id, String nome, int idade, String cpf, String endereco, String telefone) {
         this(nome, idade, cpf, endereco, telefone);
         this.id = id;
     }
-    public int getId(){return id;}
+
+    public int getId() {
+        return id;
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -54,7 +59,9 @@ public class Adotante {
         this.endereco = endereco;
     }
 
-    public String getTelefone(){return telefone;}
+    public String getTelefone() {
+        return telefone;
+    }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;

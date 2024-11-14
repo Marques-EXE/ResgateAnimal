@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdocaoRepository {
-
     private Connection connection;
-    public AdocaoRepository(String url, String username, String password)throws SQLException {
+
+    public AdocaoRepository(String url, String username, String password) throws SQLException {
         this.connection = DriverManager.getConnection(url, username, password);
     }
-    public void insert(Adocao adocao)throws SQLException{
+
+    public void insert(Adocao adocao) throws SQLException {
         String sql = "insert into adocao (funcionario_id, adotante_id, animal_id) value(?,?,?)";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         int funcionarioId = adocao.getFuncionario().getId();
@@ -28,6 +29,7 @@ public class AdocaoRepository {
         stmt.executeUpdate();
         stmt.close();
     }
+
     public List<Adocao> findAll() throws SQLException {
         List<Adocao> adocoes = new ArrayList<>();
         String sql = "select \n" +
@@ -39,7 +41,7 @@ public class AdocaoRepository {
                 "inner join animal m on x.animal_id = m.id";
         PreparedStatement stmt = this.connection.prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             String nomeFuncionario = resultSet.getString(1);
             int idadeFuncionaro = resultSet.getInt(2);
             String enderecoFuncionario = resultSet.getString(3);
